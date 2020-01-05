@@ -1,0 +1,6 @@
+tilesheetimagefilename=D:\bASEL\Projects\Java\javaTileEditor\data\tiles\Tiles.png
+tilesheetlayoutfilename=D:\bASEL\Projects\Java\javaTileEditor\data\tiles\Tiles.layout
+mapfilename=D:\bASEL\Projects\Java\javaTileEditor\data\maps\backdrop.txt
+mapfilename=D:\bASEL\Projects\Java\javaTileEditor\data\maps\back.txt
+mapfilename=D:\bASEL\Projects\Java\javaTileEditor\data\maps\main.txt
+mapfilename=D:\bASEL\Projects\Java\javaTileEditor\data\maps\fore.txt
