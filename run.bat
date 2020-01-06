@@ -1,0 +1,1 @@
+java -classpath bin/ TileEditor.TileEditor

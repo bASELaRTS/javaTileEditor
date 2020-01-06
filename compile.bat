@@ -1,0 +1,1 @@
+javac -d bin/ -classpath src/ src/TileEditor/TileEditor.java
