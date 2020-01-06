@@ -37,7 +37,7 @@ public class TileEditorFormMaps extends JFrame implements ActionListener, ISelec
 		super();
 		
 		this.m_fileChooser = new JFileChooser();
-		this.m_fileChooser.setCurrentDirectory(new File("D:\\bASEL\\Projects\\Java\\javaTileEditor\\data\\maps"));
+		this.m_fileChooser.setCurrentDirectory(new File("data/maps"));
 		
 		this.m_imgLocked = Helper.Image.loadFromFile("data/TileEditor/lock.png");
 		this.m_imgUnLocked = Helper.Image.loadFromFile("data/TileEditor/unlock.png");
@@ -132,6 +132,8 @@ public class TileEditorFormMaps extends JFrame implements ActionListener, ISelec
       			form.getTileWidth(),
       			form.getTileHeight()
       	);
+      	map.setTileManager(new TileManager());
+      	
   			this.m_panel.getMapManager().add(map);
       }
 			this.m_panel.repaint();
@@ -141,6 +143,7 @@ public class TileEditorFormMaps extends JFrame implements ActionListener, ISelec
 				TileMap map = new TileMap();
 				map.load(this.m_fileChooser.getSelectedFile());
 				map.setLocked(true);				
+				map.setTileManager(new TileManager());
 				this.getPanel().getMapManager().add(map);
 				
 				this.getPanel().setSelectedMap(map);
@@ -213,8 +216,9 @@ public class TileEditorFormMaps extends JFrame implements ActionListener, ISelec
 		}
 	}
 	
+	// ISelected
 	public void selected(EventArgs event) {
-		if (event.getSender()==this.getPanel()) {
+		if (event.getSender()==this.getPanel()) {		  
 			this.setLockedStatus();
 		}
 	}  

@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ public class TileEditorFormTiles extends JFrame implements ActionListener {
     super();
         
     this.m_fileChooser = new JFileChooser();
+    this.m_fileChooser.setCurrentDirectory(new File("data/tiles"));
     
     this.m_panel = new TilePanel();
     

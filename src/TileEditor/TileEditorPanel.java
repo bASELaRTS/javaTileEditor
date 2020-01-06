@@ -14,7 +14,6 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
   private static final long serialVersionUID = 1L;
 
   private IMapManager m_mapManager;
-  private ITileManager m_tileManager;
   
   Thread m_thread;
   boolean m_threadRunning;
@@ -51,19 +50,7 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
   	}
   	return null;
   }
-  
-  private int getSelectedTileIndex() {
-  	if (this.m_tileManager!=null) {
-  		for(int i=0;i<this.m_tileManager.count();i++) {
-  			Tile tile = this.m_tileManager.elementAt(i);
-  			if (tile.getSelected()) {
-  				return i;
-  			}
-  		}
-  	}
-  	return -1;
-  }
-  
+    
   private void loop() {
     TileMap map;
     int w,h;
@@ -72,10 +59,6 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
     
     map = this.getSelectedMap();
     if (map!=null) {  
-    	if (map.getTileManager()==null) {
-    		map.setTileManager(this.m_tileManager);
-    	}
-    	
       if ((map.getVisible())&&(!map.getLocked())) {
         tw = map.getTileWidth();
         th = map.getTileHeight();
@@ -90,7 +73,7 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
         if (ty>h-1) ty = h-1;
         
         if (this.m_mouseLeft) {
-        	int tile = this.getSelectedTileIndex();
+        	int tile = ((TileManager)map.getTileManager()).getSelectedIndex();        	        	
           map.setTile(tx, ty, tile);
         } else if (this.m_mouseRight) {
           map.setTile(tx, ty, -1);
@@ -246,7 +229,7 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
     }      
   }
   
-  public void paintTile(int tile, int x, int y, int tw, int th, Graphics graphics) {
+  public void paintTile(TileMap map, int tile, int x, int y, int tw, int th, Graphics graphics) {
     int c;
     BufferedImage image;
     
@@ -254,12 +237,13 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
     int dy = (int)(y*this.getZoom());
     int dtw = (int)(tw*this.getZoom());
     int dth = (int)(th*this.getZoom());
-    
-    if (this.m_tileManager!=null) {
-      c = this.m_tileManager.count();
+
+    ITileManager tileManager = map.getTileManager();
+    if (tileManager!=null) {
+      c = tileManager.count();
       if (c>0) {
         if ((tile>=0)&&(tile<c)) {
-          image = this.m_tileManager.getImage(tile);        
+          image = tileManager.getImage(tile);        
           graphics.drawImage(image,dx,dy,dtw,dth,null);
         } else {
           this.paintDummy(tile, dx, dy, dtw, dth, graphics);
@@ -273,7 +257,6 @@ public class TileEditorPanel extends JPanel implements Runnable, MouseListener, 
   }
 
 	public void setMapManager(IMapManager mapManager) {this.m_mapManager=mapManager;}
-  public void setTileManager(ITileManager tileManager) {this.m_tileManager=tileManager;}
   public void setZoom(double d) {this.m_zoom=d;}
   public double getZoom() {return this.m_zoom;}
 }

@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.border.BevelBorder;
 
-public class TileEditor extends JFrame implements ActionListener {
+public class TileEditor extends JFrame implements ActionListener, ISelected {
   private static final long serialVersionUID = 1L;
 
   private JFileChooser m_fileChooser;
@@ -60,14 +60,15 @@ public class TileEditor extends JFrame implements ActionListener {
     super();
     
     this.m_fileChooser = new JFileChooser();
-    this.m_fileChooser.setCurrentDirectory(new File("D:\\bASEL\\Projects\\Java\\javaTileEditor\\data\\levels"));
+    this.m_fileChooser.setCurrentDirectory(new File("data/levels"));
     
     this.m_formMaps = new TileEditorFormMaps();
+    this.m_formMaps.getPanel().addSelectedListener(this);
     this.m_formTiles = new TileEditorFormTilesLayout();
+    this.m_formTiles.getPanel().addSelectedListener(this);
     
     this.m_tilePanel = new TileEditorPanel();
     this.m_tilePanel.setMapManager(this.m_formMaps.getPanel().getMapManager());
-    this.m_tilePanel.setTileManager(this.m_formTiles.getPanel().getTileManager());
 
     JMenuBar menuBar;
     JMenu menu;
@@ -253,6 +254,7 @@ public class TileEditor extends JFrame implements ActionListener {
 						TileMap map = new TileMap();
 						map.load(strs[1]);
 						map.setLocked(true);
+						map.setTileManager(new TileManager());
 						this.m_formMaps.getPanel().getMapManager().add(map);
 					}
 				}
@@ -313,6 +315,17 @@ public class TileEditor extends JFrame implements ActionListener {
     } else if ((arg0.getSource()==this.m_menuItemViewZoomOut)||(arg0.getSource()==this.m_btnToolbarZoomOut)) {
     	this.getPanel().setZoom(this.getPanel().getZoom()*0.5);
     	this.updateZoom();
+    }
+  }
+
+  // ISelected
+  public void selected(EventArgs event) {
+    if (event.getSender()==this.m_formMaps.getPanel()) {
+      // map selected
+      TileMap map = this.m_formMaps.getPanel().getSelectedMap();
+      this.m_formTiles.getPanel().setTileManager((TileManager)map.getTileManager());
+    } else if (event.getSender()==this.m_formTiles.getPanel()) {
+      // tile selected
     }
   }
 }

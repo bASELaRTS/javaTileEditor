@@ -47,7 +47,8 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 		this.m_imgUnLocked = Helper.Image.loadFromFile("data/TileEditor/unlock.png");
 		
 		this.m_fileChooser = new JFileChooser();
-		this.m_fileChooser.setCurrentDirectory(new File("D:\\bASEL\\Projects\\Java\\javaTileEditor\\data\\tiles"));
+		//this.m_fileChooser.setCurrentDirectory(new File("D:\\bASEL\\Projects\\Java\\javaTileEditor\\data\\tiles"));
+		this.m_fileChooser.setCurrentDirectory(new File("data/tiles"));
 		
 		this.m_panel = new TileEditorPanelTilesLayout();
 		this.m_panel.addSelectedListener(this);
@@ -144,80 +145,84 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
   }  
 
 	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getSource()==this.m_btnLoadImage) {
-			this.m_fileChooser.setMultiSelectionEnabled(false);
-			if (this.m_fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
-				BufferedImage image = Helper.Image.loadFromFile(this.m_fileChooser.getSelectedFile());				
-				this.m_panel.getTileManager().setImage(image);
-				if (image!=null) {
-					int w = (int)(image.getWidth()*this.m_panel.getZoom());
-					int h = (int)(image.getHeight()*this.m_panel.getZoom());
-					this.m_panel.setPreferredSize(new Dimension(w,h));					
-				}
-			}
-		} else if (arg0.getSource()==this.m_btnLoadLayout) {
-			this.m_fileChooser.setMultiSelectionEnabled(false);
-			if (this.m_fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
-				this.m_panel.getTileManager().load(this.m_fileChooser.getSelectedFile());
-				this.getPanel().setLocked(true);
-				this.setLockedStatus();
-			}
-		} else if (arg0.getSource()==this.m_btnSaveLayout) {
-			this.m_fileChooser.setMultiSelectionEnabled(false);
-			if (this.m_fileChooser.showSaveDialog(null)==JFileChooser.APPROVE_OPTION) {
-				this.m_panel.getTileManager().save(this.m_fileChooser.getSelectedFile());
-			}
-		} else if (arg0.getSource()==this.m_btnLockLayout) {
-			this.getPanel().setLocked(!this.getPanel().getLocked());
-			this.setLockedStatus();
-		} else if (arg0.getSource()==this.m_btnAddTile) {
-			this.m_panel.addTile();
-		} else if (arg0.getSource()==this.m_btnDeleteTile) {			
-			int index = this.getPanel().getSelectedTileIndex();
-			if (index>=0) {
-				this.m_panel.getTileManager().remove(index);
-			}
-		} else if (arg0.getSource()==this.m_btnClearTiles) {
-			this.m_panel.getTileManager().getTiles().clear();
-		} else if (arg0.getSource()==this.m_btnTileInfo) {
-			int index = this.getPanel().getSelectedTileIndex();
-			if (index>=0) {
-				Tile tile = this.getPanel().getTileManager().getTiles().elementAt(index);
-				TileEditorFormTilesLayoutInfo form = new TileEditorFormTilesLayoutInfo();
-				form.setTile(tile);
-				if (form.ShowDialog()==TileEditorFormTilesLayoutInfo.OPTION_OK) {
-					tile.setName(form.getName());
-					tile.setX(form.getX());
-					tile.setY(form.getY());
-					tile.setWidth(form.getWidth());
-					tile.setHeight(form.getHeight());
-				}
-			}
-		} else if (arg0.getSource()==this.m_btnZoom100p) {
-			this.m_panel.setZoom(1.0);
-			BufferedImage image = this.m_panel.getTileManager().getImage();				
-			if (image!=null) {
-				int w = (int)(image.getWidth()*this.m_panel.getZoom());
-				int h = (int)(image.getHeight()*this.m_panel.getZoom());
-				this.m_panel.setPreferredSize(new Dimension(w,h));					
-			}
-		} else if (arg0.getSource()==this.m_btnZoomIn) {
-			this.m_panel.setZoom(this.m_panel.getZoom()*2);
-			BufferedImage image = this.m_panel.getTileManager().getImage();				
-			if (image!=null) {
-				int w = (int)(image.getWidth()*this.m_panel.getZoom());
-				int h = (int)(image.getHeight()*this.m_panel.getZoom());
-				this.m_panel.setPreferredSize(new Dimension(w,h));		
-			}
-		} else if (arg0.getSource()==this.m_btnZoomOut) {			
-			this.m_panel.setZoom(this.m_panel.getZoom()*0.5);
-			BufferedImage image = this.m_panel.getTileManager().getImage();				
-			if (image!=null) {
-				int w = (int)(image.getWidth()*this.m_panel.getZoom());
-				int h = (int)(image.getHeight()*this.m_panel.getZoom());
-				this.m_panel.setPreferredSize(new Dimension(w,h));					
-			}
-		}
+	  if (this.getPanel().getTileManager()==null) {
+	    
+	  } else {
+	    if (arg0.getSource()==this.m_btnLoadImage) {
+        this.m_fileChooser.setMultiSelectionEnabled(false);
+        if (this.m_fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
+          BufferedImage image = Helper.Image.loadFromFile(this.m_fileChooser.getSelectedFile());        
+          this.m_panel.getTileManager().setImage(image);
+          if (image!=null) {
+            int w = (int)(image.getWidth()*this.m_panel.getZoom());
+            int h = (int)(image.getHeight()*this.m_panel.getZoom());
+            this.m_panel.setPreferredSize(new Dimension(w,h));          
+          }
+        }       
+	    } else if (arg0.getSource()==this.m_btnLoadLayout) {
+        this.m_fileChooser.setMultiSelectionEnabled(false);
+        if (this.m_fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
+          this.m_panel.getTileManager().load(this.m_fileChooser.getSelectedFile());
+          this.getPanel().setLocked(true);
+          this.setLockedStatus();
+        }       
+	    } else if (arg0.getSource()==this.m_btnSaveLayout) {
+        this.m_fileChooser.setMultiSelectionEnabled(false);
+        if (this.m_fileChooser.showSaveDialog(null)==JFileChooser.APPROVE_OPTION) {
+          this.m_panel.getTileManager().save(this.m_fileChooser.getSelectedFile());
+        }       
+	    } else if (arg0.getSource()==this.m_btnLockLayout) {
+	      this.getPanel().setLocked(!this.getPanel().getLocked());
+	      this.setLockedStatus();
+	    } else if (arg0.getSource()==this.m_btnAddTile) {
+	      this.m_panel.addTile();
+	    } else if (arg0.getSource()==this.m_btnDeleteTile) {
+        int index = this.getPanel().getTileManager().getSelectedIndex();
+        if (index>=0) {
+          this.m_panel.getTileManager().remove(index);
+        }       
+	    } else if (arg0.getSource()==this.m_btnClearTiles) {
+	      this.m_panel.getTileManager().getTiles().clear();
+	    } else if (arg0.getSource()==this.m_btnTileInfo) {
+        int index = this.getPanel().getTileManager().getSelectedIndex();
+        if (index>=0) {
+          Tile tile = this.getPanel().getTileManager().getTiles().elementAt(index);
+          TileEditorFormTilesLayoutInfo form = new TileEditorFormTilesLayoutInfo();
+          form.setTile(tile);
+          if (form.ShowDialog()==TileEditorFormTilesLayoutInfo.OPTION_OK) {
+            tile.setName(form.getName());
+            tile.setX(form.getX());
+            tile.setY(form.getY());
+            tile.setWidth(form.getWidth());
+            tile.setHeight(form.getHeight());
+          }
+        }       
+	    } else if (arg0.getSource()==this.m_btnZoom100p) {
+        this.m_panel.setZoom(1.0);
+        BufferedImage image = this.m_panel.getTileManager().getImage();       
+        if (image!=null) {
+          int w = (int)(image.getWidth()*this.m_panel.getZoom());
+          int h = (int)(image.getHeight()*this.m_panel.getZoom());
+          this.m_panel.setPreferredSize(new Dimension(w,h));          
+        }
+	    } else if (arg0.getSource()==this.m_btnZoomIn) {
+	      this.m_panel.setZoom(this.m_panel.getZoom()*2);
+	      BufferedImage image = this.m_panel.getTileManager().getImage();       
+	      if (image!=null) {
+	        int w = (int)(image.getWidth()*this.m_panel.getZoom());
+	        int h = (int)(image.getHeight()*this.m_panel.getZoom());
+	        this.m_panel.setPreferredSize(new Dimension(w,h));    
+	      }
+	    } else if (arg0.getSource()==this.m_btnZoomOut) {     
+	      this.m_panel.setZoom(this.m_panel.getZoom()*0.5);
+	      BufferedImage image = this.m_panel.getTileManager().getImage();       
+	      if (image!=null) {
+	        int w = (int)(image.getWidth()*this.m_panel.getZoom());
+	        int h = (int)(image.getHeight()*this.m_panel.getZoom());
+	        this.m_panel.setPreferredSize(new Dimension(w,h));          
+	      }
+	    }	    
+	  } // if (this.getPanel().getTileManager()==null)
 	}
 	
 	private void setLockedStatus() {
@@ -230,19 +235,21 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 			}
 		}
 	}
-
+	
 	public void selected(EventArgs event) {
 		if (event.getSender()==this.getPanel()) {
 			this.setLockedStatus();
 			
-			Tile tile = this.getPanel().getSelectedTile();
-			this.m_lblTileInfo.setText("" + tile.getName() + " "
-					+ "(" + tile.getX()
-					+ "," + tile.getY()
-					+ "," + tile.getWidth()
-					+ "," + tile.getHeight()
-					+ ")"
-			);
+			Tile tile = this.getPanel().getTileManager().getSelectedTile();		
+			if (tile!=null) {
+	      this.m_lblTileInfo.setText("" + tile.getName() + " "
+	          + "(" + tile.getX()
+	          + "," + tile.getY()
+	          + "," + tile.getWidth()
+	          + "," + tile.getHeight()
+	          + ")"
+	      );			  
+			}
 		}
 	}
 

@@ -10,12 +10,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
-public class TileManager implements ITileManager {
+public class TileManager implements ITileManager, ISelectionManager {
 	private Vector<Tile> m_tiles;
 	private BufferedImage m_image;
 	
 	public TileManager() {
 		this.m_tiles = new Vector<Tile>();
+		this.setSelectedIndex(-1);
 	}
 	
 	public void load(File file) {
@@ -83,6 +84,16 @@ public class TileManager implements ITileManager {
 	public BufferedImage getImage() {return this.m_image;}
 	public Vector<Tile> getTiles(){return this.m_tiles;}
 	
+	public Tile getSelectedTile() {
+    for(int i=0;i<this.m_tiles.size();i++) {
+      Tile tile = this.m_tiles.elementAt(i);
+      if (tile.getSelected()) {
+        return tile;
+      }
+    }
+	  return null;
+	}
+	
 	// interface function
 	public void clear() {this.m_tiles.clear();}
 	public void add(Tile tile) {this.m_tiles.add(tile);}
@@ -110,5 +121,26 @@ public class TileManager implements ITileManager {
 	public void remove(int index) {this.m_tiles.remove(index);}	
 	public int count() {return this.m_tiles.size();}
 	public Tile elementAt(int index) {return this.m_tiles.elementAt(index);	}
+	
+	// ISelectionManager
+  public void setSelectedIndex(int index) {
+    for(int i=0;i<this.m_tiles.size();i++) {
+      Tile tile = this.m_tiles.elementAt(i);
+      if (i==index) {
+        tile.setSelected(true);
+      } else {
+        tile.setSelected(false);
+      }
+    }
+  }
+  public int getSelectedIndex() {
+    for(int i=0;i<this.m_tiles.size();i++) {
+      Tile tile = this.m_tiles.elementAt(i);
+      if (tile.getSelected()) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
 }

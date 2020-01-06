@@ -14,7 +14,7 @@ public class TileMap extends Map {
   
   public void paintTile(int tile, int x, int y, int tw, int th, Graphics graphics) {
   	if (this.m_tilePainter!=null) {
-  		this.m_tilePainter.paintTile(tile, x, y, tw, th, graphics);
+  		this.m_tilePainter.paintTile(this, tile, x, y, tw, th, graphics);
   	}
   }
   
