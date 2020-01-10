@@ -1,40 +1,28 @@
 package platformer;
 
-import java.util.Vector;
-
 import engine.Engine;
-import engine.Entity;
+import engine.EntityManager;
 import engine.Scene;
 
 public class SceneMain extends Scene {
-  private Vector<Entity> m_entities;
+  private EntityManager m_entities;
   
   public SceneMain(Engine engine) {
     super(engine);
     
-    this.m_entities = new Vector<Entity>();
+    this.m_entities = new EntityManager(this.getEngine());
     
-    Block block = new Block(this.getEngine());
-    this.getEntities().add(block);
+    this.getEntities().add(new BlockKeyboard(this.getEngine()));
+    this.getEntities().add(new BlockMouse(this.getEngine()));
   }
   
   public void update() {
-    int i;
-    Entity e;
-    for(i=0;i<this.getEntities().size();i++) {
-      e = this.getEntities().elementAt(i);
-      e.update();
-    }
+    this.getEntities().update();
   }
   
   public void paint() {
-    int i;
-    Entity e;
-    for(i=0;i<this.getEntities().size();i++) {
-      e = this.getEntities().elementAt(i);
-      e.paint();
-    }
+    this.getEntities().paint();
   }
   
-  public Vector<Entity> getEntities() {return this.m_entities;}
+  public EntityManager getEntities() {return this.m_entities;}
 }

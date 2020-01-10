@@ -2,6 +2,8 @@ package TileEditor;
 
 import java.awt.Graphics;
 
+import engine.Map;
+
 public class TileMap extends Map {
   private ITileManager m_tileManager;
   private ITilePainter m_tilePainter;
@@ -9,7 +11,7 @@ public class TileMap extends Map {
   private boolean m_locked;
   
   public TileMap() {
-    super();
+    super(null);
   }
   
   public void paintTile(int tile, int x, int y, int tw, int th, Graphics graphics) {

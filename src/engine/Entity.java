@@ -6,6 +6,7 @@ public class Entity {
   private String m_name;
   private Vector3 m_position;
   private Vector3 m_size;
+  private boolean m_visible;
   
   public Entity(Engine engine){
     this.setEngine(engine);
@@ -15,6 +16,7 @@ public class Entity {
     this.m_size = new Vector3();
     
     this.setName("Entity");
+    this.setVisible(true);
   }
   
   public void update(){}
@@ -28,4 +30,6 @@ public class Entity {
   public Scene getScene() {return this.m_scene;}
   public Vector3 getPosition(){return this.m_position;}
   public Vector3 getSize(){return this.m_size;}
+  public void setVisible(boolean b) {this.m_visible=b;}
+  public boolean getVisible() {return this.m_visible;}
 }

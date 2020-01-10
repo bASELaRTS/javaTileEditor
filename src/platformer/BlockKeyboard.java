@@ -9,8 +9,8 @@ import engine.IGraphics;
 import engine.Keyboard;
 import engine.Vector3;
 
-public class Block extends Entity {
-  public Block(Engine engine) {
+public class BlockKeyboard extends Entity {
+  public BlockKeyboard(Engine engine) {
     super(engine);
     
     this.getSize().setVector(16, 16, 0);
