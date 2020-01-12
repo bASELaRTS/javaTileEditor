@@ -40,7 +40,9 @@ public class EntityManager {
   public void paint() {
     for(int i=0;i<this.m_list.size();i++) {
       Entity e = this.m_list.elementAt(i);
-      e.paint();
+      if (e.getVisible()) {
+        e.paint();
+      }
     }
   }
   

@@ -1,0 +1,37 @@
+<level>
+  <name>level0</name>
+  <entities>
+    <entity>
+      <type>map</type>
+      <filename>data/maps/backdrop.txt</filename>
+      <tilemap>
+        <image>data/tiles/tiles.png</image>
+        <layout>data/tiles/tiles.layout</layout>
+      </tilemap>
+    </entity>
+    <entity>
+      <type>map</type>
+      <filename>data/maps/back.txt</filename>
+      <tilemap>
+        <image>data/tiles/tiles.png</image>
+        <layout>data/tiles/tiles.layout</layout>
+      </tilemap>
+    </entity>
+    <entity>
+      <type>map</type>
+      <filename>data/maps/main.txt</filename>
+      <tilemap>
+        <image>data/tiles/tiles.png</image>
+        <layout>data/tiles/tiles.layout</layout>
+      </tilemap>
+    </entity>
+    <entity>
+      <type>map</type>
+      <filename>data/maps/fore.txt</filename>
+      <tilemap>
+        <image>data/tiles/tiles.png</image>
+        <layout>data/tiles/tiles.layout</layout>
+      </tilemap>
+    </entity>
+  </entities>
+</level>

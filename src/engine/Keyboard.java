@@ -3,10 +3,13 @@ package engine;
 import java.util.Vector;
 
 public class Keyboard {
-  Vector<Key> m_keys;
-  
+  private Vector<Key> m_keys;
+  private Key m_keyUnknown;
+    
   public Keyboard() {
     this.m_keys = new Vector<Key>();
+    
+    this.m_keyUnknown = new Key();
   }
   
   public void add(Key key) {
@@ -56,6 +59,27 @@ public class Keyboard {
     }
     return null;
   }
+  
+  public Key getKeyPressed() {
+  	for(int i=0;i<this.m_keys.size();i++) {
+  		Key key = this.m_keys.elementAt(i);
+  		if (key.getState()) {
+  			return key;
+  		}
+  	}
+  	
+  	if (this.m_keyUnknown.getState()) {
+  		return this.m_keyUnknown;
+  	}
+  	
+  	return null;
+  }
+  
+  public void setUnknownKeyCode(int keyCode, boolean state) {
+  	this.m_keyUnknown.setKeyCode(keyCode);
+  	this.m_keyUnknown.setState(state);
+  }
+  public Key getKeyUnknown() {return this.m_keyUnknown;}
   
   public Vector<Key> getKeys(){return this.m_keys;}
   

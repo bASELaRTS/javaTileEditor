@@ -74,6 +74,8 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
       Key key = keyboard.find(keyCode);
       if (key!=null) {
         key.setState(state);
+      } else {
+      	keyboard.setUnknownKeyCode(keyCode, state);
       }
     }
   }
