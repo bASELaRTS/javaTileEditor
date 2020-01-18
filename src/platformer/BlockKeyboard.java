@@ -1,8 +1,8 @@
 package platformer;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
+import engine.Color;
 import engine.Engine;
 import engine.Entity;
 import engine.IGraphics;
@@ -10,13 +10,17 @@ import engine.Keyboard;
 import engine.Vector3;
 
 public class BlockKeyboard extends Entity {
+  private Color m_color;
+  
   public BlockKeyboard(Engine engine) {
     super(engine);
     
-    this.getSize().setVector(16, 16, 0);
+    this.m_color = new Color(255,0,0);
+    
+    this.getSize().setSize(16,16);
     this.getPosition().setVector(
-        ((this.getEngine().getWidth()-this.getSize().x)*0.5),
-        ((this.getEngine().getHeight()-this.getSize().y)*0.5),
+        ((this.getEngine().getWidth()-this.getSize().getWidth())*0.5),
+        ((this.getEngine().getHeight()-this.getSize().getHeight())*0.5),
         0
     );
     
@@ -53,8 +57,8 @@ public class BlockKeyboard extends Entity {
     IGraphics graphics = engine.getGraphics();
     int x = (int)(this.getPosition().x);
     int y = (int)(this.getPosition().y);
-    int w = (int)(this.getSize().x);
-    int h = (int)(this.getSize().y);    
-    graphics.fillRect(x, y, w, h, Color.red);
+    int w = (int)(this.getSize().getWidth());
+    int h = (int)(this.getSize().getHeight());    
+    graphics.fillRect(x, y, w, h, this.m_color.getColor());
   }
 }

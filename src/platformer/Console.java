@@ -1,7 +1,6 @@
 package platformer;
 
-import java.awt.Color;
-
+import engine.Color;
 import engine.Engine;
 import engine.Entity;
 import engine.IGraphics;
@@ -21,7 +20,7 @@ public class Console extends Entity {
 		
 		this.m_lines = new String[lineCount];
 		this.m_lineIndex = 0;
-		this.m_lineColor = Color.white;
+		this.m_lineColor = new Color(255,255,255);
 		
 		this.clear();
 	}
@@ -62,7 +61,7 @@ public class Console extends Entity {
 		int y = 12;
 		for(int i=0;i<this.m_lines.length;i++) {
 			String str = this.m_lines[i];
-			graphics.drawString(str, x, y, this.m_lineColor);
+			graphics.drawString(str, x, y, this.m_lineColor.getColor());
 			y+=12;
 		}
 	}

@@ -1,7 +1,6 @@
 package platformer;
 
-import java.awt.Color;
-
+import engine.Color;
 import engine.Engine;
 import engine.Entity;
 import engine.IGraphics;
@@ -9,13 +8,15 @@ import engine.Mouse;
 import engine.Vector3;
 
 public class BlockMouse extends Entity {
+  private Color m_color;
+  
   public BlockMouse(Engine engine) {
     super(engine);
-    
-    this.getSize().setVector(16, 16, 0);
+    this.m_color = new Color(255,255,0);
+    this.getSize().setSize(16, 16);
     this.getPosition().setVector(
-        ((this.getEngine().getWidth()-this.getSize().x)*0.5),
-        ((this.getEngine().getHeight()-this.getSize().y)*0.5),
+        ((this.getEngine().getWidth()-this.getSize().getWidth())*0.5),
+        ((this.getEngine().getHeight()-this.getSize().getHeight())*0.5),
         0
     );
   }
@@ -36,10 +37,10 @@ public class BlockMouse extends Entity {
   public void paint() {
     Engine engine = this.getEngine();
     IGraphics graphics = engine.getGraphics();
-    int w = (int)(this.getSize().x);
-    int h = (int)(this.getSize().y);    
+    int w = (int)(this.getSize().getWidth());
+    int h = (int)(this.getSize().getHeight());    
     int x = (int)(this.getPosition().x-(w*0.5));
     int y = (int)(this.getPosition().y-(h*0.5));
-    graphics.fillRect(x, y, w, h, Color.yellow);
+    graphics.fillRect(x, y, w, h, this.m_color.getColor());
   }
 }
