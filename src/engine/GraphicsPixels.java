@@ -19,6 +19,7 @@ public class GraphicsPixels implements IGraphics {
     
     this.m_image = new BufferedImage(this.getWidth(),this.getHeight(),BufferedImage.TYPE_INT_ARGB);
     this.m_data = ((DataBufferInt)this.m_image.getRaster().getDataBuffer()).getData();
+    //this.m_data = new int[this.getWidth()*this.getHeight()];
   }
   
   private int getIndex(int x, int y) {
@@ -33,7 +34,8 @@ public class GraphicsPixels implements IGraphics {
 
   // interface functions
   public void clear() {
-    int color = Color.fromARGB(255, 0, 0, 0);
+    //int color = Color.fromARGB(255, 0, 0, 0);
+    int color = Color.black.getColor();
     for(int i=0;i<this.m_data.length;i++) {
       this.m_data[i]=color;
     }
@@ -44,9 +46,60 @@ public class GraphicsPixels implements IGraphics {
       this.m_data[index]=color;
     }
   }
-  public int getPixel(int x, int y) {return 0;}
+  public int getPixel(int x, int y) {
+    int index = this.getIndex(x, y);
+    if (index>=0) {
+      return this.m_data[index];
+    }
+    return Color.black.getColor();
+  }
   public void drawLine(int x1, int y1, int x2, int y2, int color) {}
-  public void drawImage(BufferedImage image, int x, int y, int w, int h) {}
+  public void drawImage(BufferedImage image, int x, int y, int w, int h) {
+    int i,j;
+    int color;
+    double tx,dx;
+    double ty,dy;
+    
+    if (w<=0) return;
+    if (h<=0) return;
+    
+    dx = (double)image.getWidth()/w;
+    dy = (double)image.getHeight()/h;
+    
+    ty = 0;
+    for(j=0;j<h;j++) {      
+      tx = 0;
+      for(i=0;i<w;i++) {        
+        color = image.getRGB((int)tx, (int)ty);
+        this.setPixel(x+i, y+j, color);        
+        tx+=dx;
+      }
+      ty+=dy;
+    }    
+  }
+  public void drawTexture(Texture texture, int x, int y, int w, int h) {
+    int i,j;
+    int color;
+    double tx,dx;
+    double ty,dy;
+    
+    if (w<=0) return;
+    if (h<=0) return;
+    
+    dx = (double)texture.getWidth()/w;
+    dy = (double)texture.getHeight()/h;
+    
+    ty = 0;
+    for(j=0;j<h;j++) {      
+      tx = 0;
+      for(i=0;i<w;i++) {        
+        color = texture.getPixel((int)tx, (int)ty);
+        this.setPixel(x+i, y+j, color);        
+        tx+=dx;
+      }
+      ty+=dy;
+    }
+  }
   public void drawString(String s, int x, int y, int color) {}
   public void fillRect(int x, int y, int w, int h, int color) {
     int i,j;
@@ -57,8 +110,8 @@ public class GraphicsPixels implements IGraphics {
     int y2 = y+h;
     if (x1<0) x1=0;
     if (y1<0) y1=0;
-    if (x2>=w) x2=w;
-    if (y2>=y) y2=h;
+    if (x2>=this.getWidth()) x2=this.getWidth();
+    if (y2>=this.getHeight()) y2=this.getHeight();
     
     for(j=y1;j<y2;j++) {
       index = j*this.m_width+x1;
@@ -72,6 +125,12 @@ public class GraphicsPixels implements IGraphics {
   public int getWidth() {return this.m_size.getWidth();}
   public int getHeight() {return this.m_size.getHeight();}
   public BufferedImage getImage() {
+    /*
+    int data[] = ((DataBufferInt)this.m_image.getRaster().getDataBuffer()).getData();
+    for(int i=0;i<this.m_data.length;i++) {
+      data[i] = this.m_data[i];
+    }
+    /**/
     return this.m_image;
   }
 }

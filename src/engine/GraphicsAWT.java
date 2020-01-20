@@ -33,6 +33,29 @@ public class GraphicsAWT implements IGraphics {
   public void drawImage(BufferedImage image, int x, int y, int w, int h) {
     this.m_graphics.drawImage(image, x, y, w, h, null);
   }
+  public void drawTexture(Texture texture, int x, int y, int w, int h) {
+    int i,j;
+    int color;
+    double tx,dx;
+    double ty,dy;
+    
+    if (w<=0) return;
+    if (h<=0) return;
+    
+    dx = (double)texture.getWidth()/w;
+    dy = (double)texture.getHeight()/h;
+    
+    ty = 0;
+    for(j=0;j<h;j++) {      
+      tx = 0;
+      for(i=0;i<w;i++) {        
+        color = texture.getPixel((int)tx, (int)ty);
+        this.setPixel(x+i, y+j, color);        
+        tx+=dx;
+      }
+      ty+=dy;
+    }    
+  }  
   public void drawString(String s, int x, int y, int color) {
     this.m_graphics.setColor(new java.awt.Color(color));
     this.m_graphics.drawString(s, x, y);
@@ -43,6 +66,5 @@ public class GraphicsAWT implements IGraphics {
   }
   public BufferedImage getImage() {return this.m_bitmap;}
   public int getWidth() {return this.m_size.getWidth();}
-  public int getHeight() {return this.m_size.getHeight();}
-  
+  public int getHeight() {return this.m_size.getHeight();}  
 }

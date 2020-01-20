@@ -5,6 +5,7 @@ import engine.EntityManager;
 import engine.Keyboard;
 import engine.Keyboard.Key;
 import engine.Scene;
+import engine.Texture;
 
 public class SceneMain extends Scene {
   private EntityManager m_entities;
@@ -18,6 +19,7 @@ public class SceneMain extends Scene {
     
     this.getEntities().add(new BlockKeyboard(this.getEngine()));
     this.getEntities().add(new BlockMouse(this.getEngine()));
+    this.getEntities().add(new EntityTexture(this.getEngine(),new Texture(Helper.Image.loadFromFile("data/TileEditor/Table.png"))));
    
     this.getEntities().add(new Console(this.getEngine(),19));
   }
