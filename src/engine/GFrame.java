@@ -15,6 +15,7 @@ public class GFrame extends JFrame {
     this.m_panel = new GPanel(engine);
     
     this.setTitle(engine.getName());
+    this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     this.add(this.getPanel(),BorderLayout.CENTER);

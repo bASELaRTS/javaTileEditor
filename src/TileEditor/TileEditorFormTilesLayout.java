@@ -29,6 +29,7 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 	private JButton m_btnDeleteTile;
 	private JButton m_btnClearTiles;
 	private JButton m_btnTileInfo;
+  private JButton m_btnTileSpacing;
 	private JButton m_btnZoom100p;
 	private JButton m_btnZoomIn;
 	private JButton m_btnZoomOut;
@@ -87,6 +88,10 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 		this.m_btnTileInfo.setIcon(new ImageIcon(Helper.Image.loadFromFile("data/TileEditor/Info.png")));
 		this.m_btnTileInfo.setToolTipText("Tile Info");
 		this.m_btnTileInfo.addActionListener(this);
+    this.m_btnTileSpacing = new JButton();
+    this.m_btnTileSpacing.setIcon(new ImageIcon(Helper.Image.loadFromFile("data/TileEditor/Info.png")));
+    this.m_btnTileSpacing.setToolTipText("Tile Spacing");
+    this.m_btnTileSpacing.addActionListener(this);
 
 		this.m_btnZoom100p = new JButton();
 		this.m_btnZoom100p.setIcon(new ImageIcon(Helper.Image.loadFromFile("data/TileEditor/zoom.png")));
@@ -116,6 +121,7 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 		toolbar.add(this.m_btnDeleteTile);
 		toolbar.add(this.m_btnClearTiles);
 		toolbar.add(this.m_btnTileInfo);
+    toolbar.add(this.m_btnTileSpacing);
 		toolbar.addSeparator();
 		toolbar.add(this.m_btnZoom100p);
 		toolbar.add(this.m_btnZoomIn);
@@ -197,6 +203,12 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
             tile.setHeight(form.getHeight());
           }
         }       
+      } else if (arg0.getSource()==this.m_btnTileSpacing) {
+        TileEditorFormTilesLayoutSpacing form = new TileEditorFormTilesLayoutSpacing();
+        form.setSpacing(this.getPanel().getTileSpacing());
+        if (form.ShowDialog()==TileEditorFormTilesLayoutSpacing.OPTION_OK) {
+          this.getPanel().setTileSpacing(form.getSpacing());
+        }          
 	    } else if (arg0.getSource()==this.m_btnZoom100p) {
         this.m_panel.setZoom(1.0);
         BufferedImage image = this.m_panel.getTileManager().getImage();       

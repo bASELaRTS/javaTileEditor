@@ -38,6 +38,7 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	private boolean m_keyShift;
 	private boolean m_keyS;
 	private boolean m_keyI;
+	private boolean m_keyPlus;
 
 	private int m_previousX;
 	private int m_previousY;
@@ -46,8 +47,9 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	private int m_previousSelected;
 	
 	private double m_zoom;
-	private boolean m_debug;
+	private int m_debug; //0=no 1=index# 2=index+name
 	private boolean m_locked;
+	private int m_tileSpacing;
 	
 	public TileEditorPanelTilesLayout() {
 		super();		
@@ -59,7 +61,8 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 		this.m_previousHeight = 16;
 		this.m_previousSelected = -1;
 		this.m_zoom = 1.0;
-		this.m_debug = false;
+		this.m_debug = 0;
+		this.setTileSpacing(0);
 		this.setLocked(false);
 		this.setTileManager(null);
 		
@@ -89,7 +92,7 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	public void addTile() {
 	  if (this.getTileManager()!=null) {
 	    Tile tile = new Tile();
-	    tile.setXY(this.m_previousX + this.m_previousWidth, this.m_previousY);
+	    tile.setXY(this.m_previousX + this.m_previousWidth + this.getTileSpacing(), this.m_previousY);
 	    tile.setSize(this.m_previousWidth, this.m_previousHeight);
 	    //tile.setSelected(true);
 	    
@@ -140,9 +143,13 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	        g.drawRect(x,y,w,h);
 	      }
 	      
-	      if (this.m_debug) {
+	      if (this.m_debug>0) {
 	        g.setColor(Color.red);
 	        g.drawString(""+i, x, y+12);
+	        
+	        if (this.m_debug==2) {
+	          g.drawString(""+t.getName(), x, y+22);	          
+	        }
 	      }
 	    }
 		}// if (this.getTileManager()!=null)
@@ -269,7 +276,10 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	      this.m_keyI = false;
 	      
 	      if (this.m_keyShift) {
-	        this.m_debug = !this.m_debug;
+	        this.m_debug++;
+	        if (this.m_debug>2) {
+	          this.m_debug=0;
+	        }	        
 	      } else {
 	        c = this.getTileManager().getTiles().size();      
 	        for(i=0;i<c;i++) {
@@ -305,10 +315,19 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	      }
 	      
 	      if (c>0) {
-	        j++;
+	        if (this.m_keyShift) {	          
+	          j--;
+	        } else {
+	          j++;
+	        }
+	        
 	        if (j>=c) {
 	          j = 0;
 	        }
+	        if (j<0) {
+	          j = c-1;
+	        }
+	        
 	        tile = this.getTileManager().getTiles().elementAt(j);
 	        tile.setSelected(true);
 	        
@@ -318,6 +337,11 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	        }
 	      }
 	    } // if keyS
+	    
+	    if (this.m_keyPlus) {
+	      this.m_keyPlus = false;	      
+	      this.addTile();
+	    }// if keyPlus
 	    
 		}// if (this.getTileManager()!=null);		
 	}
@@ -333,12 +357,15 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 		if (keyCode==KeyEvent.VK_SHIFT) this.m_keyShift = state;
 		if (keyCode==KeyEvent.VK_I) this.m_keyI = state;
 		if (keyCode==KeyEvent.VK_S) this.m_keyS = state;
+		if (keyCode==KeyEvent.VK_EQUALS) this.m_keyPlus = state;
 	}
 	
 	public void setTileManager(TileManager tileManager) {this.m_tileManager = tileManager;}
 	public TileManager getTileManager() {return this.m_tileManager;}
 	public void setZoom(double d) {this.m_zoom=d;}
 	public double getZoom() {return this.m_zoom;}
+	public void setTileSpacing(int i) {this.m_tileSpacing=i;}
+	public int getTileSpacing() {return this.m_tileSpacing;}
 
 	public void mouseDragged(MouseEvent arg0) {
 		int x = (int)(arg0.getX()/this.m_zoom);

@@ -56,9 +56,10 @@ public class GraphicsPixels implements IGraphics {
   public void drawLine(int x1, int y1, int x2, int y2, int color) {}
   public void drawImage(BufferedImage image, int x, int y, int w, int h) {
     int i,j;
-    int color;
+    int c;
     double tx,dx;
     double ty,dy;
+    Color color = new Color();
     
     if (w<=0) return;
     if (h<=0) return;
@@ -70,8 +71,11 @@ public class GraphicsPixels implements IGraphics {
     for(j=0;j<h;j++) {      
       tx = 0;
       for(i=0;i<w;i++) {        
-        color = image.getRGB((int)tx, (int)ty);
-        this.setPixel(x+i, y+j, color);        
+        c = image.getRGB((int)tx, (int)ty);
+        color.setColor(c);
+        if (color.getA()>0) {
+          this.setPixel(x+i, y+j, c);        
+        }
         tx+=dx;
       }
       ty+=dy;
@@ -79,9 +83,10 @@ public class GraphicsPixels implements IGraphics {
   }
   public void drawTexture(Texture texture, int x, int y, int w, int h) {
     int i,j;
-    int color;
+    int c;
     double tx,dx;
     double ty,dy;
+    Color color = new Color(); 
     
     if (w<=0) return;
     if (h<=0) return;
@@ -93,8 +98,11 @@ public class GraphicsPixels implements IGraphics {
     for(j=0;j<h;j++) {      
       tx = 0;
       for(i=0;i<w;i++) {        
-        color = texture.getPixel((int)tx, (int)ty);
-        this.setPixel(x+i, y+j, color);        
+        c = texture.getPixel((int)tx, (int)ty);
+        color.setColor(c);
+        if (color.getA()>0) {
+          this.setPixel(x+i, y+j, c);        
+        }
         tx+=dx;
       }
       ty+=dy;
