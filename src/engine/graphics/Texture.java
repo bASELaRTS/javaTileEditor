@@ -1,6 +1,8 @@
-package engine;
+package engine.graphics;
 
 import java.awt.image.BufferedImage;
+
+import engine.Size;
 
 public class Texture {
   private Size m_size;

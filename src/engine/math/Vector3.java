@@ -1,4 +1,4 @@
-package engine;
+package engine.math;
 
 public class Vector3 {
   public double x;
@@ -6,21 +6,25 @@ public class Vector3 {
   public double z;
   
   public Vector3(){
-    this.setVector(0,0,0);
+    this.setCoordinates(0,0,0);
   }
   
   public Vector3(Vector3 v) {
     this.setVector(v);
   }
   
-  public void setVector(double dx, double dy, double dz){
+  public Vector3(double dx, double dy, double dz){
+    this.setCoordinates(dx, dy, dz);
+  }
+  
+  public void setCoordinates(double dx, double dy, double dz){
     this.x = dx;
     this.y = dy;
     this.z = dz;
   }
   
   public void setVector(Vector3 v){
-    this.setVector(v.x,v.y,v.z);
+    this.setCoordinates(v.x,v.y,v.z);
   }
   
   public static void add(Vector3 v1, Vector3 v2, Vector3 v3){

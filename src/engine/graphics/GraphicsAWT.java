@@ -1,7 +1,9 @@
-package engine;
+package engine.graphics;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
+import engine.Size;
 
 public class GraphicsAWT implements IGraphics {
   private Size m_size;
@@ -29,6 +31,10 @@ public class GraphicsAWT implements IGraphics {
   public void drawLine(int x1, int y1, int x2, int y2, int color) {
     this.m_graphics.setColor(new java.awt.Color(color));
     this.m_graphics.drawLine(x1, y1, x2, y2);
+  }
+  public void drawCircle(int x, int y, int r, int color) {
+    this.m_graphics.setColor(new java.awt.Color(color));
+    this.m_graphics.drawOval(x-r, y-r, r+r, r+r);
   }
   public void drawImage(BufferedImage image, int x, int y, int w, int h) {
     this.m_graphics.drawImage(image, x, y, w, h, null);
@@ -63,6 +69,12 @@ public class GraphicsAWT implements IGraphics {
   public void fillRect(int x, int y, int w, int h, int color) {
     this.m_graphics.setColor(new java.awt.Color(color));
     this.m_graphics.fillRect(x, y, w, h);
+  }
+  public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int color) {
+    int x[] = {x1,x2,x3};
+    int y[] = {y1,y2,y3};
+    this.m_graphics.setColor(new java.awt.Color(color));
+    this.m_graphics.fillPolygon(x,y,3);
   }
   public BufferedImage getImage() {return this.m_bitmap;}
   public int getWidth() {return this.m_size.getWidth();}

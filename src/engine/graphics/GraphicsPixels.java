@@ -1,7 +1,9 @@
-package engine;
+package engine.graphics;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+
+import engine.Size;
 
 public class GraphicsPixels implements IGraphics {
   private Size m_size;
@@ -53,7 +55,112 @@ public class GraphicsPixels implements IGraphics {
     }
     return Color.black.getColor();
   }
-  public void drawLine(int x1, int y1, int x2, int y2, int color) {}
+  public void drawLine(int x1, int y1, int x2, int y2, int color) {
+    boolean steep = Math.abs(y2-y1)>Math.abs(x2-x1);
+    int i;
+    int dx;
+    int dy;
+    int ystep;
+    
+    if (steep) {
+      i = x1;
+      x1 = y1;
+      y1 = i;
+      
+      i = x2;
+      x2 = y2;
+      y2 = i;
+    }
+    
+    if (x1>x2) {
+      i = x1;
+      x1 = x2;
+      x2 = i;
+      
+      i = y1;
+      y1 = y2;
+      y2 = i;
+    }
+    
+    dx = x2-x1;
+    dy = Math.abs(y2-y1);
+    
+    int err = dx/2;
+    
+    if (y1<y2) {
+      ystep=1;
+    } else {
+      ystep = -1;
+    }
+    
+    while(x1<=x2) {
+      if (steep) {
+        this.setPixel(y1, x1, color);
+      } else {
+        this.setPixel(x1, y1, color);
+      }
+      
+      err -= dy;
+      if (err<0) {
+        y1 += ystep;
+        err+=dx;
+      }
+      
+      x1++;
+    }
+  }
+  public void drawHLine(int x1, int y, int x2, int color) {
+    int i;
+    
+    if (x1>x2) {
+      i = x1;
+      x1 = x2;
+      x2 = i;
+    }
+    
+    if ((x1<this.getWidth())&&(x2>0)) {
+      if (x1<0) x1 = 0;
+      if (x2>=this.getWidth()) x2 = this.getWidth();
+      if ((x2-x1)>0) {
+        for(i=x1;i<x2;i++) {
+          this.setPixel(i, y, color);
+        }
+      }    
+    }    
+  }
+  public void drawCircle(int x, int y, int r, int color) {
+    int f = 1-r;
+    int ddF_x=1;
+    int ddF_y=-2*r;
+    int x0 = 0;
+    int y0 = r;
+    
+    this.setPixel(x, y+r, color);
+    this.setPixel(x, y-r, color);
+    this.setPixel(x+r, y, color);
+    this.setPixel(x-r, y, color);
+    
+    while(x0<y0) {
+      if (f>=0) {
+        y0--;
+        ddF_y+=2;
+        f+=ddF_y;
+      }
+      x0++;
+      ddF_x+=2;
+      f+=ddF_x;
+      
+      this.setPixel(x+x0, y+y0, color);
+      this.setPixel(x-x0, y+y0, color);
+      this.setPixel(x+x0, y-y0, color);
+      this.setPixel(x-x0, y-y0, color);
+
+      this.setPixel(x+y0, y+x0, color);
+      this.setPixel(x-y0, y+x0, color);
+      this.setPixel(x+y0, y-x0, color);
+      this.setPixel(x-y0, y-x0, color);
+    }
+  }
   public void drawImage(BufferedImage image, int x, int y, int w, int h) {
     int i,j;
     int c;
@@ -129,6 +236,82 @@ public class GraphicsPixels implements IGraphics {
       }
     }
     
+  }
+  public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int color) {
+    int i,j,k;
+    int x,xx,y;
+    
+    // sort by y
+    if (y1>y3) {
+      i = x1;
+      x1 = x3;
+      x3 = i;
+      i = y1;
+      y1 = y3;
+      y3 = i;
+    }
+    if (y2>y3) {
+      i = x2;
+      x2 = x3;
+      x3 = i;
+      i = y2;
+      y2 = y3;
+      y3 = i;
+    }
+    if (y1>y2) {
+      i = x2;
+      x2 = x1;
+      x1 = i;
+      i = y2;
+      y2 = y1;
+      y1 = i;
+    }
+    
+    // find edge
+    double dss = ((double)x2-x1)/(y2-y1);
+    double dsl = ((double)x3-x1)/(y3-y1);
+    double ds;
+    double dl;
+    int[] xstarts = new int[y3-y1];
+    int[] xends = new int[y3-y1];
+    
+    ds = x1;
+    dl = x1;
+    j = 0;
+    for(i=y1;i<y2;i++) {
+      xstarts[j] = (int)ds;
+      xends[j] = (int)dl;
+      j++;
+      ds+=dss;
+      dl+=dsl;
+    }
+    
+    dss = ((double)x3-x2)/(y3-y2);
+    ds = x2;
+    for(i=y2;i<y3;i++) {
+      xstarts[j] = (int)ds;
+      xends[j] = (int)dl;
+      j++;
+      ds+=dss;
+      dl+=dsl;
+    }
+    
+    // draw
+    y = y1;
+    for(i=0;i<j;i++) {
+      x = xstarts[i];
+      xx = xends[i];
+      
+      if (x>xx) {
+        k = x;
+        x = xx;
+        xx = k;
+      }
+      
+      this.drawHLine(x, y, xx, color);
+      
+      y++;
+    }
   }
   public int getWidth() {return this.m_size.getWidth();}
   public int getHeight() {return this.m_size.getHeight();}

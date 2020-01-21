@@ -2,12 +2,12 @@ package platformer;
 
 import java.awt.event.KeyEvent;
 
-import engine.Color;
 import engine.Engine;
 import engine.Entity;
-import engine.IGraphics;
 import engine.Keyboard;
-import engine.Vector3;
+import engine.graphics.Color;
+import engine.graphics.IGraphics;
+import engine.math.Vector3;
 
 public class BlockKeyboard extends Entity {
   private Color m_color;
@@ -18,7 +18,7 @@ public class BlockKeyboard extends Entity {
     this.m_color = new Color(255,0,0);
     
     this.getSize().setSize(16,16);
-    this.getPosition().setVector(
+    this.getPosition().setCoordinates(
         ((this.getEngine().getWidth()-this.getSize().getWidth())*0.5),
         ((this.getEngine().getHeight()-this.getSize().getHeight())*0.5),
         0

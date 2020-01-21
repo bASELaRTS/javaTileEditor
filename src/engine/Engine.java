@@ -2,13 +2,16 @@ package engine;
 
 import java.awt.Graphics;
 
+import engine.graphics.GraphicsAWT;
+import engine.graphics.IGraphics;
+
 public class Engine {
   private String m_name;
   private Timer m_timer;
   private IGraphics m_graphics;
   private Input m_input;
   private SceneManager m_scenes;
-  private Size m_size;
+  private Size m_size;  
   
   public Engine(String name, int width, int height){
     this.m_size = new Size(width,height);

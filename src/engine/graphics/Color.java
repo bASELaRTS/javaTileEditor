@@ -1,4 +1,4 @@
-package engine;
+package engine.graphics;
 
 public class Color {
   public static final Color black = new Color(255,0,0,0);

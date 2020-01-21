@@ -1,11 +1,11 @@
 package platformer;
 
-import engine.Color;
 import engine.Engine;
 import engine.Entity;
-import engine.IGraphics;
 import engine.Keyboard;
 import engine.Keyboard.Key;
+import engine.graphics.Color;
+import engine.graphics.IGraphics;
 
 public class Console extends Entity {
 	private String[] m_lines;

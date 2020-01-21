@@ -1,16 +1,21 @@
 package engine;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
 import engine.Keyboard.Key;
+import engine.graphics.IGraphics;
 
 public class GPanel extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener {
   private static final long serialVersionUID = 1L;
@@ -27,6 +32,11 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
     
     int w = (int)(engine.getWidth());
     int h = (int)(engine.getHeight());
+    
+    BufferedImage emptyCursorImage = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
+    Cursor emptyCursor = Toolkit.getDefaultToolkit().createCustomCursor(emptyCursorImage, new Point(0, 0), "blank cursor");
+    this.setCursor(emptyCursor);
+    //this.setCursor(Cursor.getDefaultCursor());
     
     this.setMinimumSize(new Dimension(w,h));
     this.setPreferredSize(new Dimension(w,h));

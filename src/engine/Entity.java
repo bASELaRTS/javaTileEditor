@@ -1,5 +1,7 @@
 package engine;
 
+import engine.math.Vector3;
+
 public class Entity {
   private Engine m_engine;
   private Scene m_scene;

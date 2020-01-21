@@ -2,7 +2,7 @@ package platformer;
 
 import engine.Engine;
 import engine.Entity;
-import engine.Texture;
+import engine.graphics.Texture;
 
 public class EntityTexture extends Entity {
   private Texture m_texture;
@@ -42,7 +42,7 @@ public class EntityTexture extends Entity {
     }
     this.getSize().setSize((int)(this.m_texture.getWidth()*this.m_zoom), (int)(this.m_texture.getHeight()*this.m_zoom));
     
-    this.getPosition().setVector((this.getEngine().getWidth() - this.getSize().getWidth())*0.5,(this.getEngine().getHeight() - this.getSize().getHeight())*0.5, 0);
+    this.getPosition().setCoordinates((this.getEngine().getWidth() - this.getSize().getWidth())*0.5,(this.getEngine().getHeight() - this.getSize().getHeight())*0.5, 0);
   }
 
   public void paint() {
