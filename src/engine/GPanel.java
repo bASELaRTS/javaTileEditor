@@ -33,9 +33,11 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
     int w = (int)(engine.getWidth());
     int h = (int)(engine.getHeight());
     
+    /*
     BufferedImage emptyCursorImage = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
     Cursor emptyCursor = Toolkit.getDefaultToolkit().createCustomCursor(emptyCursorImage, new Point(0, 0), "blank cursor");
     this.setCursor(emptyCursor);
+    /**/
     //this.setCursor(Cursor.getDefaultCursor());
     
     this.setMinimumSize(new Dimension(w,h));
