@@ -53,7 +53,7 @@ public class TileEditorFormTilesLayoutInfo {
 		panel.add(this.m_txtHeight);	
 		this.m_panel = panel;
 	}
-
+		
 	public int ShowDialog() {
     int result;
     result = JOptionPane.showConfirmDialog(null, this.m_panel, "Map", JOptionPane.OK_CANCEL_OPTION);

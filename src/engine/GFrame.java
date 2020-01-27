@@ -19,6 +19,7 @@ public class GFrame extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     this.add(this.getPanel(),BorderLayout.CENTER);
+    this.setLocationRelativeTo(null);
     this.pack();
     this.setVisible(true);    
   } 

@@ -1,14 +1,19 @@
 package TileEditor;
 
+import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class TileEditorFormMapInfo {
+public class TileEditorFormMapInfo implements ActionListener{
   public static int OPTION_CANCEL = 0;
   public static int OPTION_OK = 1;
   
@@ -18,6 +23,7 @@ public class TileEditorFormMapInfo {
   private JLabel m_lblTileWidth;
   private JLabel m_lblTileHeight;
   private JLabel m_lblVisible;
+  private JLabel m_lblBackgroundColor;
   
   private JTextField m_txtMapName;
   private JTextField m_txtMapWidth;
@@ -25,6 +31,9 @@ public class TileEditorFormMapInfo {
   private JTextField m_txtTileWidth;
   private JTextField m_txtTileHeight;  
   private JCheckBox m_cbxVisible;
+  private JButton m_btnBackgroundColor;
+  
+  private Color m_backgroundColor;
   
   private JPanel m_panelMain;
   
@@ -37,6 +46,7 @@ public class TileEditorFormMapInfo {
     this.m_lblTileWidth = new JLabel("TileWidth");
     this.m_lblTileHeight = new JLabel("TileHeight");
     this.m_lblVisible = new JLabel("Visible");
+    this.m_lblBackgroundColor = new JLabel("BackgroundColor");
     
     this.m_txtMapName = new JTextField("",15);
     this.m_txtMapWidth = new JTextField("20",4);
@@ -45,10 +55,12 @@ public class TileEditorFormMapInfo {
     this.m_txtTileHeight = new JTextField("16",4);    
     this.m_cbxVisible = new JCheckBox();
     this.m_cbxVisible.setSelected(true);
-    
+    this.m_btnBackgroundColor = new JButton();
+    this.m_btnBackgroundColor.addActionListener(this);
+      
     JPanel panelInput;
     panelInput = new JPanel();
-    panelInput.setLayout(new GridLayout(6,2));
+    panelInput.setLayout(new GridLayout(7,2));
     panelInput.add(this.m_lblMapName);
     panelInput.add(this.m_txtMapName);
     panelInput.add(this.m_lblMapWidth);
@@ -61,9 +73,18 @@ public class TileEditorFormMapInfo {
     panelInput.add(this.m_txtTileHeight);
     panelInput.add(this.m_lblVisible);
     panelInput.add(this.m_cbxVisible);
+    panelInput.add(this.m_lblBackgroundColor);
+    panelInput.add(this.m_btnBackgroundColor);
+
     this.m_panelMain = panelInput;  
   }
-    
+  
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource()==this.m_btnBackgroundColor) {
+      this.setBackgroundColor(JColorChooser.showDialog(null, "ColorChooser", this.m_backgroundColor));      
+    }
+  }
+      
   public int showDialog() {
     int result;    
     result = JOptionPane.showConfirmDialog(null, this.m_panelMain, "Map", JOptionPane.OK_CANCEL_OPTION);
@@ -85,6 +106,11 @@ public class TileEditorFormMapInfo {
   public int getTileHeight() {return Integer.parseInt(this.m_txtTileHeight.getText());}
   public void setVisible(boolean b) {this.m_cbxVisible.setSelected(b);}
   public boolean getVisible() {return this.m_cbxVisible.isSelected();}
+  public void setBackgroundColor(Color color) {
+    this.m_backgroundColor = color;
+    this.m_btnBackgroundColor.setBackground(color);
+  }
+  public Color getBackGroundColor() {return this.m_backgroundColor;}
   
   public void setFromMap(TileMap map) {
     this.setMapName(map.getName());

@@ -12,8 +12,9 @@ public class Engine {
   private Input m_input;
   private SceneManager m_scenes;
   private Size m_size;  
+  private double m_zoom;
   
-  public Engine(String name, int width, int height){
+  public Engine(String name, int width, int height, double zoom){
     this.m_size = new Size(width,height);
     this.m_timer = new Timer();
     this.m_scenes = new SceneManager();
@@ -21,6 +22,7 @@ public class Engine {
     
     this.setName(name);
     this.setGraphics(new GraphicsAWT(this.getWidth(),this.getHeight()));
+    this.setZoom(zoom);
   }
   
   public void update(){
@@ -42,4 +44,6 @@ public class Engine {
   public Timer getTimer(){return this.m_timer;}
   public Input getInput() {return this.m_input;}
   public SceneManager getScenes(){return this.m_scenes;}
+  public void setZoom(double d) {this.m_zoom=d;}
+  public double getZoom() {return this.m_zoom;}
 }

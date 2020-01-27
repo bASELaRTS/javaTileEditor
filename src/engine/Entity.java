@@ -9,6 +9,7 @@ public class Entity {
   private Vector3 m_position;
   private Size m_size;
   private boolean m_visible;
+  private boolean m_remove;
   
   public Entity(Engine engine){
     this.setEngine(engine);
@@ -19,6 +20,7 @@ public class Entity {
     
     this.setName("Entity");
     this.setVisible(true);
+    this.setRemove(false);
   }
   
   public void update(){}
@@ -36,4 +38,6 @@ public class Entity {
   public Size getSize(){return this.m_size;}
   public void setVisible(boolean b) {this.m_visible=b;}
   public boolean getVisible() {return this.m_visible;}
+  public void setRemove(boolean b) {this.m_remove=b;}
+  public boolean getRemove() {return this.m_remove;}
 }

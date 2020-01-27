@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.event.KeyEvent;
 import java.util.Vector;
 
 public class Keyboard {
@@ -10,6 +11,13 @@ public class Keyboard {
     this.m_keys = new Vector<Key>();
     
     this.m_keyUnknown = new Key();
+    
+    this.add(KeyEvent.VK_UP);
+    this.add(KeyEvent.VK_DOWN);
+    this.add(KeyEvent.VK_LEFT);
+    this.add(KeyEvent.VK_RIGHT);
+    this.add(KeyEvent.VK_SPACE);
+    this.add(KeyEvent.VK_ESCAPE);
   }
   
   public void add(Key key) {

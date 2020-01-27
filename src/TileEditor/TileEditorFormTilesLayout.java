@@ -147,6 +147,7 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
 	
   public static void main(String[] args) {
     TileEditorFormTilesLayout form = new TileEditorFormTilesLayout();
+    form.getPanel().setTileManager(new TileManager());
     form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }  
 
@@ -208,6 +209,8 @@ public class TileEditorFormTilesLayout extends JFrame implements ActionListener,
         form.setSpacing(this.getPanel().getTileSpacing());
         if (form.ShowDialog()==TileEditorFormTilesLayoutSpacing.OPTION_OK) {
           this.getPanel().setTileSpacing(form.getSpacing());
+          this.getPanel().setBackgroundColor(form.getBackgroundColor());
+          this.getPanel().repaint();
         }          
 	    } else if (arg0.getSource()==this.m_btnZoom100p) {
         this.m_panel.setZoom(1.0);

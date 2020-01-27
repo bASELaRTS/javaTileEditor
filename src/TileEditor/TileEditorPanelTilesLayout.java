@@ -50,6 +50,7 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	private int m_debug; //0=no 1=index# 2=index+name
 	private boolean m_locked;
 	private int m_tileSpacing;
+	private Color m_backgroundColor;
 	
 	public TileEditorPanelTilesLayout() {
 		super();		
@@ -62,6 +63,8 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 		this.m_previousSelected = -1;
 		this.m_zoom = 1.0;
 		this.m_debug = 0;
+		this.m_backgroundColor = Color.black;
+		
 		this.setTileSpacing(0);
 		this.setLocked(false);
 		this.setTileManager(null);
@@ -115,6 +118,10 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 		int w,h;
 		Tile t;
 		BufferedImage image;
+		
+		// draw background color
+		g.setColor(this.m_backgroundColor);
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
 		// draw sprite sheet
 		if (this.getTileManager()!=null) {
@@ -414,5 +421,6 @@ public class TileEditorPanelTilesLayout extends JPanel implements Runnable, KeyL
 	public Tile elementAt(int index) {return this.getTileManager().elementAt(index);}
 	public int count() {return this.getTileManager().count();}
 	public BufferedImage getImage(int index) {return this.getTileManager().getImage(index);}
-
+	public void setBackgroundColor(Color color) {this.m_backgroundColor=color;}
+	public Color getBackgroundColor() {return this.m_backgroundColor;}
 }

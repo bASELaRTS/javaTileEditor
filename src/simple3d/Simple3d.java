@@ -13,7 +13,7 @@ public class Simple3d extends Engine {
   private Vector<Mesh> m_meshes;
   
   public Simple3d() {
-    super("simple3d",320,240);
+    super("simple3d",320,240,1);
     this.setGraphics(new GraphicsPixels(this.getWidth(),this.getHeight()));
     this.m_camera = new Camera(this.getWidth(),this.getHeight());
     this.m_meshes = new Vector<Mesh>();

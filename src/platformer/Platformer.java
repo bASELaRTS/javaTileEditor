@@ -6,7 +6,7 @@ import engine.GFrame;
 
 public class Platformer extends Engine {
   public Platformer() {
-    super("Platformer",320,240);    
+    super("Platformer",320,240,1);    
    
     this.setGraphics(new engine.graphics.GraphicsPixels(this.getWidth(),this.getHeight()));
     //this.setGraphics(new engine.graphics.GraphicsAWT(this.getWidth(), this.getHeight()));

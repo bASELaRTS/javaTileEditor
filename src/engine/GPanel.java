@@ -1,16 +1,12 @@
 package engine;
 
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -30,8 +26,8 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
     
     setEngine(engine);
     
-    int w = (int)(engine.getWidth());
-    int h = (int)(engine.getHeight());
+    int w = (int)(engine.getWidth() * engine.getZoom());
+    int h = (int)(engine.getHeight() * engine.getZoom());
     
     /*
     BufferedImage emptyCursorImage = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
@@ -64,7 +60,7 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
         
         Thread.sleep(10);
       } catch(Exception e) {
-        
+        System.out.println(e.getMessage());
       }
     }
   }
@@ -74,9 +70,10 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
     
     if (this.getEngine()!=null) {      
       this.getEngine().paint(g);   
-      
+      int w = (int)(this.getEngine().getWidth() * this.getEngine().getZoom());
+      int h = (int)(this.getEngine().getHeight() * this.getEngine().getZoom());
       IGraphics graphics = this.getEngine().getGraphics();
-      g.drawImage(graphics.getImage(),0,0,graphics.getWidth(),graphics.getHeight(),null);
+      g.drawImage(graphics.getImage(),0,0,w,h,null);
     }
   }  
 
@@ -98,7 +95,7 @@ public class GPanel extends JPanel implements Runnable, KeyListener, MouseListen
   private void setMousePosition(int x, int y) {
     if (this.getEngine()!=null) {
       Mouse mouse = this.getEngine().getInput().getMouse();
-      mouse.setXY(x, y);
+      mouse.setXY((int)(x / this.getEngine().getZoom()), (int)(y / this.getEngine().getZoom()));
     }    
   }
   private void setMouseButton(int button, boolean state) {

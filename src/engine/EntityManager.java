@@ -33,7 +33,23 @@ public class EntityManager {
   public void update() {
     for(int i=0;i<this.m_list.size();i++) {
       Entity e = this.m_list.elementAt(i);
-      e.update();
+      if (!e.getRemove()) {
+        e.update();
+      }
+    }
+    
+    boolean removed = true;    
+    while(removed) {
+      removed = false;
+      
+      for(int i=0;i<this.m_list.size();i++) {
+        Entity e = this.m_list.elementAt(i);
+        if (e.getRemove()) {
+          this.remove(i);
+          i = this.m_list.size();
+          removed = true;
+        }
+      }
     }
   }
 
