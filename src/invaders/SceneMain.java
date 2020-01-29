@@ -1,7 +1,5 @@
 package invaders;
 
-import java.awt.Color;
-
 import engine.Engine;
 import engine.Entity;
 import engine.EntityManager;
@@ -9,7 +7,7 @@ import engine.Scene;
 import engine.math.Vector3;
 
 public class SceneMain extends Scene {
-  private EntityManager m_entities;
+  private EntityManager m_entities;    
   
   private int m_enemyDirection;
   
@@ -90,7 +88,9 @@ public class SceneMain extends Scene {
   public void paint() {
     this.getEntities().paint();    
     
-    this.getEngine().getGraphics().drawString(""+this.getEntities().count(), 2, 12, Color.white.getRGB());
+    Invaders engine = (Invaders)this.getEngine();
+    String str = ""+this.getEntities().count();
+    this.getEngine().getGraphics().drawFont(str, 2, 12, engine.getFont());
   }
   
   public EntityManager getEntities() {return this.m_entities;}

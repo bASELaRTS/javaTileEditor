@@ -313,6 +313,25 @@ public class GraphicsPixels implements IGraphics {
       y++;
     }
   }
+  
+  public void drawFont(String string, int x, int y, Font font) {
+    int i,w,h;
+    int px;
+    Font.Character character;
+    px = x;
+    for(i=0;i<string.length();i++) {
+      character = font.getCharacter(string.charAt(i));
+      if (character!=null) {
+        w = character.getSize().getWidth();
+        h = character.getSize().getHeight();
+        this.drawImage(character.getImage(), px, y, w, h);
+        px+=w + font.getCharacterSpacing();
+      } else {
+        px+=font.getDefaultSize().getWidth() + font.getCharacterSpacing();
+      }
+    }
+  }
+  
   public int getWidth() {return this.m_size.getWidth();}
   public int getHeight() {return this.m_size.getHeight();}
   public BufferedImage getImage() {

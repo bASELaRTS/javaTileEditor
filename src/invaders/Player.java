@@ -55,7 +55,7 @@ public class Player extends Actor {
     if (keyboard.isPressed(KeyEvent.VK_SPACE)) {
       keyboard.find(KeyEvent.VK_SPACE).setState(false);
       Bullit bullit = new Bullit(this.getEngine());
-      SceneMain scene = (SceneMain)this.getEngine().getScenes().elementAt(0);
+      SceneMain scene = ((Invaders)this.getEngine()).getSceneMain();
       bullit.getPosition().x = this.getPosition().x + (this.getSize().getWidth()*0.5);
       bullit.getPosition().y = this.getPosition().y - (bullit.getHeight());
       scene.getEntities().add(bullit);
@@ -85,9 +85,5 @@ public class Player extends Actor {
     Invaders engine = (Invaders)this.getEngine();
     BufferedImage image = engine.getSprites(0).getBlock(0).getImage();
     engine.getGraphics().drawImage(image, x, y, w, h);
-    /*
-    int color = Color.white.getColor();
-    this.getEngine().getGraphics().fillRect(x, y, w, h, color);
-    /**/
   }
 }
