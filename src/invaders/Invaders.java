@@ -9,6 +9,11 @@ import engine.LayoutManager;
 import engine.graphics.Font;
 
 public class Invaders extends Engine {
+  public static int SCENE_SPLASH = 0;
+  public static int SCENE_MAIN = 1;
+  public static int SCENE_WIN = 2;
+  public static int SCENE_LOSE = 3;
+  
   private LayoutManager[] m_sprites;
   private Font m_font;
   private SceneMain m_sceneMain;
@@ -45,6 +50,9 @@ public class Invaders extends Engine {
     
     this.m_sceneMain = new SceneMain(this);
     this.getScenes().add(this.m_sceneMain);
+    
+    this.getScenes().add(new SceneWin(this));
+    this.getScenes().add(new SceneLose(this));
   }
   
   public LayoutManager getSprites(int index) {return this.m_sprites[index];}

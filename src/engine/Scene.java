@@ -9,6 +9,7 @@ public class Scene {
     this.setName("");
   }
   
+  public void initialize() {}
   public void update() {}
   public void paint() {}
   

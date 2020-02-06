@@ -19,6 +19,12 @@ public class SceneMain extends Scene {
     // entities
     this.getEntities().add(new Stars(this.getEngine()));
     
+    Player player = new Player(this.getEngine());
+    player.getPosition().setCoordinates((int)((this.getEngine().getWidth()-player.getSize().getWidth())*0.5), (int)((this.getEngine().getHeight()-player.getSize().getHeight())-2), 0);
+    this.getEntities().add(player);
+  }
+  
+  public void initialize() {
     // enemies
     int i,j,x,y,w,h;
     int enemyx = 6;
@@ -35,14 +41,15 @@ public class SceneMain extends Scene {
         this.getEntities().add(enemy);
       }      
     }
-        
-    Player player = new Player(this.getEngine());
-    player.getPosition().setCoordinates((int)((this.getEngine().getWidth()-player.getSize().getWidth())*0.5), (int)((this.getEngine().getHeight()-player.getSize().getHeight())-2), 0);
-    this.getEntities().add(player);
+    
+    Player player = (Player)this.getEntities().find("player");
+    if (player!=null) {
+      player.getPosition().setCoordinates((int)((this.getEngine().getWidth()-player.getSize().getWidth())*0.5), (int)((this.getEngine().getHeight()-player.getSize().getHeight())-2), 0);
+    }
   }
   
   public void update() {  	
-    int i;
+    int i,j;
     Entity entity;
     Enemy enemy;
     Vector3 position = new Vector3();
@@ -81,6 +88,36 @@ public class SceneMain extends Scene {
         enemy.getPosition().setVector(position);
       }
     }
+    
+    // test game winner
+    Player player = (Player)this.getEntities().find("player");
+    j = 0;
+    for(i=0;i<this.getEntities().count();i++) {
+      entity = this.getEntities().elementAt(i);
+      if (entity.getName().equals("enemy")) {
+        j++;
+        
+        boolean hit = Helper.Collision.boxbox(
+            (int)player.getPosition().x, (int)player.getPosition().y, player.getWidth(), player.getHeight(), 
+            (int)entity.getPosition().x, (int)entity.getPosition().y, entity.getWidth(), entity.getHeight()
+        );
+        
+        if (hit) {
+          i = this.getEntities().count();
+          this.getEngine().getInput().getKeyboard().clearPressed();
+          this.getEngine().getScenes().elementAt(Invaders.SCENE_LOSE).initialize();
+          this.getEngine().getScenes().setActiveSceneIndex(Invaders.SCENE_LOSE);
+        }
+      }
+    }
+    if (j==0) {
+      this.getEngine().getInput().getKeyboard().clearPressed();
+      this.getEngine().getScenes().elementAt(Invaders.SCENE_WIN).initialize();
+      this.getEngine().getScenes().setActiveSceneIndex(Invaders.SCENE_WIN);
+    }
+    
+    // test game over
+    
     
     this.getEntities().update();
   }

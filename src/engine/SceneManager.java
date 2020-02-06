@@ -29,7 +29,11 @@ public class SceneManager {
 		}
 	}
 	
-	public void setActiveSceneIndex(int i) {this.m_sceneActiveIndex=i;}
+	public void setActiveSceneIndex(int i) {
+	  if (i!=this.m_sceneActiveIndex) {
+	    this.m_sceneActiveIndex=i;	    
+	  }
+	}
 	public int getActiveSceneIndex() {return this.m_sceneActiveIndex;}
 	public Scene getActiveScene() {
 		for(int i=0;i<this.m_list.size();i++) {

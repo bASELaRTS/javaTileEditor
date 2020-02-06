@@ -36,6 +36,13 @@ public class Keyboard {
     }    
   }
   
+  public void clearPressed() {
+    for(int i=0;i<this.m_keys.size();i++) {
+      Key k = this.m_keys.elementAt(i);
+      k.setState(false);
+    }
+  }
+  
   public boolean isPressed(int keyCode) {
     Key k = this.find(keyCode);
     if (k!=null) {
