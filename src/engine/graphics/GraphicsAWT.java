@@ -76,6 +76,11 @@ public class GraphicsAWT implements IGraphics {
     this.m_graphics.setColor(new java.awt.Color(color));
     this.m_graphics.fillPolygon(x,y,3);
   }
+  public void fillCircle(int x, int y, int r, int color) {
+    this.m_graphics.setColor(new java.awt.Color(color));
+    this.m_graphics.fillOval(x-r, y-r, r*2, r*2);
+  }  
+
   
   public void drawFont(String string, int x, int y, Font font) {
     int i,w,h;
@@ -97,5 +102,5 @@ public class GraphicsAWT implements IGraphics {
   
   public BufferedImage getImage() {return this.m_bitmap;}
   public int getWidth() {return this.m_size.getWidth();}
-  public int getHeight() {return this.m_size.getHeight();}  
+  public int getHeight() {return this.m_size.getHeight();}
 }

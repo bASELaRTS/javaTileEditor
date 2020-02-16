@@ -128,6 +128,25 @@ public class GraphicsPixels implements IGraphics {
       }    
     }    
   }
+  public void drawVLine(int x, int y1, int y2, int color) {
+    int i;
+    
+    if (y1>y2) {
+      i = y1;
+      y1 = y2;
+      y2 = i;
+    }
+
+    if ((y1<this.getHeight())&&(y2>0)) {
+      if (y1<0) y1 = 0;
+      if (y2>=this.getHeight())y2=this.getHeight();
+      if ((y2-y1)>0) {
+        for(i=y1;i<y2;i++) {
+          this.setPixel(x, i, color);
+        }
+      }
+    }   
+  }
   public void drawCircle(int x, int y, int r, int color) {
     int f = 1-r;
     int ddF_x=1;
@@ -311,6 +330,50 @@ public class GraphicsPixels implements IGraphics {
       this.drawHLine(x, y, xx, color);
       
       y++;
+    }
+  }
+  
+  public void fillCircle(int x, int y, int r, int color) {
+    int f = 1-r;
+    int ddF_x = 1;
+    int ddF_y = -2 * r;
+    int x0 = 0;
+    int y0 = r;
+    int px = x0;
+    int py = y0;
+    int delta = 0;
+    int corners = 3;
+    
+    this.drawVLine(x, y-r, 2*r+1, color);
+    
+    while(x0<y0) {
+      if (f>=0) {
+        y0--;
+        ddF_y+=2;
+        f+=ddF_y;
+      }
+      x0++;
+      ddF_x+=2;
+      f+=ddF_x;
+      // These checks avoid double-drawing certain lines
+      if (x<(y+1)) {
+        if ((corners & 1)>0){
+          this.drawVLine(x+x0, y-y0, 2*y0+delta, color);          
+        }
+        if ((corners & 2)>0) {
+          this.drawVLine(x-x0, y-y0, 2*y+delta, color);
+        }
+      }
+      if (y0!=py) {
+        if ((corners & 1)>0) {
+          this.drawVLine(x+py, y-px, 2*px+delta, color);         
+        }
+        if ((corners & 2)>0) {
+          this.drawVLine(x-py, y-px, 2*px+delta, color);
+        }
+        py=y;
+      }
+      px=x;
     }
   }
   

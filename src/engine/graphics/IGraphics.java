@@ -16,6 +16,7 @@ public interface IGraphics {
   
   public void fillRect(int x, int y, int w, int h, int color);
   public void fillTriangle(int x1, int y1, int x2, int y2, int x3, int y3, int color);
+  public void fillCircle(int x, int y, int r, int color);
   
   public void drawFont(String s, int x, int y, Font font);
   

@@ -1,5 +1,6 @@
-package engine;
+package TileEditor;
 
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,6 +16,7 @@ public class Map extends Entity {
   private int m_height;
   private int m_tileWidth;
   private int m_tileHeight;
+  
   private int m_data[];
   
   public Map(Engine engine) {
@@ -35,6 +37,35 @@ public class Map extends Entity {
     this.m_data = new int[w*h];
     this.fill(-1);
   }  
+  
+  public void resize(int width, int height) {
+  	int i,j;
+  	int w,h;
+  	int data[];
+  	
+  	// backup
+  	data = new int[this.m_data.length];
+  	for (i=0;i<this.m_data.length;i++) {
+  		data[i]=this.m_data[i];
+  	}
+  	
+  	// init
+  	this.m_data = new int[width*height];
+  	for(i=0;i<this.m_data.length;i++) {
+  		this.m_data[i]=-1;
+  	}
+  	
+  	// fill
+  	w = (this.getWidth()<width?this.getWidth():width);
+  	h = (this.getHeight()<height?this.getHeight():height);
+  	for(j=0;j<h;j++) {
+  		for(i=0;i<w;i++) {
+  			this.m_data[j*width+i] = data[j*this.getWidth()+i];
+  		}
+  	}
+  	
+  	this.setSize(width, height);
+  }
   
   public void load(String filename) {
     this.load(new File(filename));
@@ -124,17 +155,14 @@ public class Map extends Entity {
   }  
   public int getTile(int index) {return this.m_data[index];}
   public int getTile(int x, int y) {
-    if ((y>=0)&&(y<this.getHeight())&&(x>=0)&&(x<this.getWidth())) {
-      int index = y*this.getWidth()+x;
-      return this.getTile(index);
-    }
-    return -1;
+    int index = y*this.getWidth()+x;
+    return this.getTile(index);
   }
   
-  public void paintTile(int tile, int x, int y, int tw, int th) {
+  public void paintTile(int tile, int x, int y, int tw, int th, Graphics graphics) {
   }
   
-  public void paint() {
+  public void paint(Graphics graphics) {
     int i,j;
     int w,h;
     int tx,ty;
@@ -151,7 +179,7 @@ public class Map extends Entity {
       tx = 0;
       for(i=0;i<w;i++) {
         tile = this.getTile(i, j);
-        this.paintTile(tile,tx,ty,tw,th);
+        this.paintTile(tile,tx,ty,tw,th,graphics);
         tx+=tw;
       }
       ty+=th;
