@@ -7,9 +7,7 @@ import engine.graphics.IGraphics;
 import engine.math.Vector3;
 
 public class Coin extends Entity {
-  private int m_frame;
-  private int m_frameDelay;
-  private long m_frameTimestamp;
+  private Animation m_animation;
   
   public Coin(Engine engine,int x, int y) {
     super(engine);
@@ -18,24 +16,15 @@ public class Coin extends Entity {
     this.getSize().setSize(8, 8);
     this.getPosition().setCoordinates(x, y, 0);
     
-    this.m_frame = 0;
-    this.m_frameDelay = 100;
-    this.m_frameTimestamp = engine.getTimer().getTimestamp();
-  }
-  
-  private void animate() {
-    long ms = this.getEngine().getTimer().getTimestamp();
-    if ((ms-this.m_frameTimestamp)>this.m_frameDelay) {
-      this.m_frameTimestamp = ms;
-      this.m_frame++;
-      if (this.m_frame>=4) {
-        this.m_frame=0;
-      }
-    }
+    this.m_animation = new Animation(engine);
+    this.m_animation.add(new AnimationFrame(100,0));
+    this.m_animation.add(new AnimationFrame(100,1));
+    this.m_animation.add(new AnimationFrame(100,2));
+    this.m_animation.add(new AnimationFrame(100,3));
   }
   
   public void update() {
-    this.animate();
+    this.m_animation.update();
   }
   
   public void paint() {
@@ -46,6 +35,7 @@ public class Coin extends Entity {
     Vector3 v = new Vector3();
     
     Vector3.subtract(this.getPosition(), camera.getPosition(), v);
+    AnimationFrame frame = this.m_animation.getFrame();
     
     int x = (int)v.x;
     int y = (int)v.y;
@@ -54,6 +44,6 @@ public class Coin extends Entity {
     //graphics.fillRect(x, y, w, h, Color.fromARGB(255, 255, 255, 0));
     graphics.fillCircle(x, y, w, Color.fromARGB(255, 255, 192, 0));
     //graphics.drawString(""+this.m_frame, x, y, engine.graphics.Color.fromARGB(255, 255, 255, 255));
-    graphics.drawFont(""+this.m_frame, x, y, engine.getFont());
+    graphics.drawFont(""+frame.getImageIndex(), x, y, engine.getFont());
   }
 }
