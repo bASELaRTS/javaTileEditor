@@ -9,7 +9,7 @@ import engine.graphics.IGraphics;
 
 public class SceneMain extends Scene {
   private EntityManager m_entities;
-  
+  private Player m_player;
   
   public SceneMain(Engine engine) {
     super(engine);
@@ -23,6 +23,7 @@ public class SceneMain extends Scene {
     Player player;
     player = new Player(this.getEngine());
     player.getPosition().setCoordinates(16, 16, 0);
+    this.m_player = player;
     
     Tilemap map;
     map = new Tilemap(this.getEngine());
@@ -52,6 +53,7 @@ public class SceneMain extends Scene {
     graphics.fillRect(0, 0, graphics.getWidth(), graphics.getHeight(), Color.fromARGB(255, 81, 194, 205));
     
     this.m_entities.paint();
+    this.m_player.paint();
     
     Font font = ((Fowlplay)this.getEngine()).getFont();
     graphics.drawFont(""+this.getEngine().getTimer().getFPS(), 2, 2, font);

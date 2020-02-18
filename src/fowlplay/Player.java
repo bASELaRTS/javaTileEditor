@@ -19,6 +19,7 @@ public class Player extends Entity {
     
     this.setName("player");
     this.getSize().setSize(32, 32);
+    this.setVisible(false);
     this.m_speed = new Vector3();
     
     this.m_collisionHotSpots = new Vector3[6];
@@ -40,7 +41,7 @@ public class Player extends Entity {
     this.handleMovement(p, s);
     this.handleCollisionMaps(p, s);
     this.handleCollisionObjects(p);    
-        
+    
     this.getPosition().setVector(p);
     this.getSpeed().setVector(s);
     
@@ -58,9 +59,20 @@ public class Player extends Entity {
     int y = (int)v.y;
     int w = this.getSize().getWidth();
     int h = this.getSize().getHeight();
-    graphics.fillRect(x, y, w, h, engine.graphics.Color.fromARGB(255, 255, 255, 255));
+    graphics.fillRect(x, y, w, h, engine.graphics.Color.fromARGB(255, 128, 255, 255));
   }
 
+  private void createDustCloud(Vector3 p, Vector3 s, int lifeTime) {
+    SceneMain scene = (SceneMain)this.getEngine().getScenes().elementAt(0);
+    Vector3 v = new Vector3();
+    Vector3.add(p, this.m_collisionHotSpots[0], v);
+    v.x = v.x + (5 - (Math.random()*10));
+    v.y = v.y + (5 - (Math.random()*10));
+    Dust dust = new Dust(this.getEngine(),lifeTime);      
+    dust.getPosition().setVector(v);
+    scene.getEntities().add(dust);
+  }
+  
   private void handleMovement(Vector3 p, Vector3 s) {
     Vector3 v = new Vector3();
     Vector3 a = new Vector3();
@@ -79,7 +91,7 @@ public class Player extends Entity {
     s.x = s.x + a.x;
     if (s.x> maxx) s.x = maxx;
     if (s.x<-maxx) s.x =-maxx;
-    
+        
     // vertical movement
     s.y += 1;
     if (s.y>maxy) s.y=maxy;
@@ -114,6 +126,13 @@ public class Player extends Entity {
     if (tile>0) {
       p.y = (ty*th)-this.getSize().getHeight();
       s.y = 0;
+      
+      if (this.m_state!=0) {
+        for(int i=0;i<5;i++) {
+          this.createDustCloud(p, s, 250);
+        }
+      }
+      
       this.m_state = 0;
     }
     Vector3.add(p, this.m_collisionHotSpots[4], v);    
@@ -123,6 +142,13 @@ public class Player extends Entity {
     if (tile>0) {
       p.y = (ty*th)-this.getSize().getHeight();
       s.y = 0;
+      
+      if (this.m_state!=0) {
+        for(int i=0;i<5;i++) {
+          this.createDustCloud(p, s, 250);
+        }
+      }
+
       this.m_state = 0;
     }
     Vector3.add(p, this.m_collisionHotSpots[5], v);    
@@ -132,6 +158,13 @@ public class Player extends Entity {
     if (tile>0) {
       p.y = (ty*th)-this.getSize().getHeight();
       s.y = 0;
+      
+      if (this.m_state!=0) {
+        for(int i=0;i<5;i++) {
+          this.createDustCloud(p, s, 250);
+        }
+      }
+      
       this.m_state = 0;
     }
     // collision top
@@ -160,10 +193,16 @@ public class Player extends Entity {
     if (tile>0) {
       p.x = (tx*tw)-this.getSize().getWidth();
       s.x = 0;
-    }        
-        
-    this.getPosition().setVector(p);
-    this.getSpeed().setVector(s);
+    }  
+    
+    if (s.x!=0) {
+      if (this.m_state==0) {
+        this.createDustCloud(p, s, 150);
+      }
+    }
+    if (s.y!=0) {
+      this.m_state = 1;
+    }
   }
   
   private void handleCollisionObjects(Vector3 p) {
